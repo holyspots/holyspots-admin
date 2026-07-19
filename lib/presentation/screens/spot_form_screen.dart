@@ -13,9 +13,9 @@ import '../widgets/admin_form_dialog.dart';
 
 class SpotFormScreen extends ConsumerStatefulWidget {
   final String? spotId;
-  final String? cityId;
+  final String? regionId;
 
-  const SpotFormScreen({super.key, this.spotId, this.cityId});
+  const SpotFormScreen({super.key, this.spotId, this.regionId});
 
   @override
   ConsumerState<SpotFormScreen> createState() => _SpotFormScreenState();
@@ -109,8 +109,13 @@ class _SpotFormScreenState extends ConsumerState<SpotFormScreen> with SingleTick
           location = GeoPoint(latitude: lat, longitude: lng);
         }
 
+        // Use the regionId from widget or from loaded spot
+        final regionIds = widget.regionId != null
+            ? [widget.regionId!]
+            : _spot?.regionIds ?? [];
+
         final input = SpotInput(
-          cityId: widget.cityId ?? _spot!.cityId,
+          regionIds: regionIds,
           name: LocalizedText(
             ru: _nameRuController.text,
             en: _nameEnController.text,

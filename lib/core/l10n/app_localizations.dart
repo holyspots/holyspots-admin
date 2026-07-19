@@ -33,6 +33,8 @@ abstract class AppLocalizations {
   String get rememberMe;
   String get order;
   String get confirmDelete;
+  String get filter;
+  String get apply;
 
   // Login
   String get email;
@@ -41,18 +43,23 @@ abstract class AppLocalizations {
   String get loginError;
 
   // Menu
-  String get menuCities;
   String get menuSpots;
+  String get menuRegions;
+  String get menuGuides;
+  String get menuMaps;
+  String get menuReviews;
+  String get menuPlaces;
+  String get menuDirections;
 
-  // Cities
-  String get cityName;
-  String get cityDescription;
-  String get cityPhoto;
+  // Regions
+  String get regionName;
+  String get regionDescription;
+  String get regionPhoto;
   String get spotsCount;
-  String get addCity;
-  String get editCity;
-  String get deleteCity;
-  String get selectCity;
+  String get addRegion;
+  String get editRegion;
+  String get deleteRegion;
+  String get selectRegion;
 
   // Spots
   String get spotName;
@@ -71,6 +78,76 @@ abstract class AppLocalizations {
   String get uploadAudio;
   String get noAudio;
   String get replaceFile;
+  String get openingTimes;
+  String get addOpeningTime;
+  String get beaconId;
+  String get selectRegions;
+  String get mapPreview;
+
+  // Days
+  String get days;
+  String get monday;
+  String get tuesday;
+  String get wednesday;
+  String get thursday;
+  String get friday;
+  String get saturday;
+  String get sunday;
+  String get monShort;
+  String get tueShort;
+  String get wedShort;
+  String get thuShort;
+  String get friShort;
+  String get satShort;
+  String get sunShort;
+
+  // Guides
+  String get addGuide;
+  String get editGuide;
+  String get deleteGuide;
+  String get guideName;
+  String get guideDescription;
+  String get guidePhoto;
+  String get guideSpots;
+  String get addSpotToGuide;
+
+  // Maps
+  String get addMap;
+  String get editMap;
+  String get deleteMap;
+  String get mapName;
+  String get mapFile;
+  String get mapFileSize;
+
+  // Reviews
+  String get reviewsModeration;
+  String get approved;
+  String get unapproved;
+  String get approveReview;
+  String get deleteReview;
+  String get reviewRating;
+  String get reviewText;
+  String get reviewPhotos;
+  String get fromDate;
+  String get toDate;
+
+  // Places
+  String get addPlace;
+  String get editPlace;
+  String get deletePlace;
+  String get placeName;
+  String get placeDescription;
+  String get placeAddress;
+  String get placeType;
+  String get placeTypeHotel;
+  String get placeTypeFood;
+
+  // Directions
+  String get addDirection;
+  String get editDirection;
+  String get deleteDirection;
+  String get directionName;
+  String get directionDescription;
 
   // Pagination
   String get page;

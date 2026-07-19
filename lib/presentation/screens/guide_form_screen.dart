@@ -3,61 +3,67 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/constants/colors.dart';
 import '../../core/l10n/app_localizations.dart';
-import '../../data/models/city_model.dart';
+import '../../data/models/guide_model.dart';
 import '../../data/models/localized_text.dart';
 import '../providers/data_providers.dart';
 import '../providers/auth_provider.dart';
 import '../widgets/admin_button.dart';
 import '../widgets/admin_form_dialog.dart';
 
-class CityFormScreen extends ConsumerStatefulWidget {
-  final String? cityId;
+class GuideFormScreen extends ConsumerStatefulWidget {
+  final String? guideId;
 
-  const CityFormScreen({super.key, this.cityId});
+  const GuideFormScreen({super.key, this.guideId});
 
   @override
-  ConsumerState<CityFormScreen> createState() => _CityFormScreenState();
+  ConsumerState<GuideFormScreen> createState() => _GuideFormScreenState();
 }
 
-class _CityFormScreenState extends ConsumerState<CityFormScreen> with SingleTickerProviderStateMixin {
+class _GuideFormScreenState extends ConsumerState<GuideFormScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final _nameRuController = TextEditingController();
   final _nameEnController = TextEditingController();
   final _nameHiController = TextEditingController();
-  final _descrRuController = TextEditingController();
-  final _descrEnController = TextEditingController();
-  final _descrHiController = TextEditingController();
+  final _bioRuController = TextEditingController();
+  final _bioEnController = TextEditingController();
+  final _bioHiController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _whatsappController = TextEditingController();
+  final _telegramController = TextEditingController();
   final _orderController = TextEditingController();
 
-  String? _mainPhoto;
+  String? _photo;
   bool _isLoading = false;
   bool _isSaving = false;
-  City? _city;
+  Guide? _guide;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
-    if (widget.cityId != null) {
-      _loadCity();
+    if (widget.guideId != null) {
+      _loadGuide();
     } else {
       _orderController.text = '1';
     }
   }
 
-  Future<void> _loadCity() async {
+  Future<void> _loadGuide() async {
     setState(() => _isLoading = true);
     try {
-      final city = await ref.read(cityDetailProvider(widget.cityId!).future);
-      _city = city;
-      _nameRuController.text = city.name.ru;
-      _nameEnController.text = city.name.en;
-      _nameHiController.text = city.name.hi;
-      _descrRuController.text = city.descr.ru;
-      _descrEnController.text = city.descr.en;
-      _descrHiController.text = city.descr.hi;
-      _orderController.text = city.order.toString();
-      _mainPhoto = city.mainPhoto;
+      final guide = await ref.read(guideDetailProvider(widget.guideId!).future);
+      _guide = guide;
+      _nameRuController.text = guide.name.ru;
+      _nameEnController.text = guide.name.en;
+      _nameHiController.text = guide.name.hi;
+      _bioRuController.text = guide.bio.ru;
+      _bioEnController.text = guide.bio.en;
+      _bioHiController.text = guide.bio.hi;
+      _phoneController.text = guide.phone ?? '';
+      _whatsappController.text = guide.whatsapp ?? '';
+      _telegramController.text = guide.telegram ?? '';
+      _orderController.text = guide.order.toString();
+      _photo = guide.photo;
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -69,9 +75,12 @@ class _CityFormScreenState extends ConsumerState<CityFormScreen> with SingleTick
     _nameRuController.dispose();
     _nameEnController.dispose();
     _nameHiController.dispose();
-    _descrRuController.dispose();
-    _descrEnController.dispose();
-    _descrHiController.dispose();
+    _bioRuController.dispose();
+    _bioEnController.dispose();
+    _bioHiController.dispose();
+    _phoneController.dispose();
+    _whatsappController.dispose();
+    _telegramController.dispose();
     _orderController.dispose();
     super.dispose();
   }
@@ -86,30 +95,33 @@ class _CityFormScreenState extends ConsumerState<CityFormScreen> with SingleTick
       final config = ref.read(appConfigProvider);
       if (!(config?.isMockMode ?? true)) {
         final client = ref.read(apiClientProvider);
-        final input = CityInput(
+        final input = GuideInput(
           name: LocalizedText(
             ru: _nameRuController.text,
             en: _nameEnController.text,
             hi: _nameHiController.text,
           ),
-          descr: LocalizedText(
-            ru: _descrRuController.text,
-            en: _descrEnController.text,
-            hi: _descrHiController.text,
+          bio: LocalizedText(
+            ru: _bioRuController.text,
+            en: _bioEnController.text,
+            hi: _bioHiController.text,
           ),
-          mainPhoto: _mainPhoto,
+          photo: _photo,
+          phone: _phoneController.text.isNotEmpty ? _phoneController.text : null,
+          whatsapp: _whatsappController.text.isNotEmpty ? _whatsappController.text : null,
+          telegram: _telegramController.text.isNotEmpty ? _telegramController.text : null,
           order: int.tryParse(_orderController.text) ?? 1,
         );
 
-        if (widget.cityId == null) {
-          await client!.createCity(input);
+        if (widget.guideId == null) {
+          await client!.createGuide(input);
         } else {
-          await client!.updateCity(widget.cityId!, input);
+          await client!.updateGuide(widget.guideId!, input);
         }
       }
 
-      ref.invalidate(citiesProvider);
-      if (mounted) context.go('/cities');
+      ref.invalidate(guidesProvider);
+      if (mounted) context.go('/guides');
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -124,7 +136,7 @@ class _CityFormScreenState extends ConsumerState<CityFormScreen> with SingleTick
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final isNew = widget.cityId == null;
+    final isNew = widget.guideId == null;
 
     if (_isLoading) {
       return const Center(
@@ -142,11 +154,11 @@ class _CityFormScreenState extends ConsumerState<CityFormScreen> with SingleTick
             children: [
               IconButton(
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () => context.go('/cities'),
+                onPressed: () => context.go('/guides'),
               ),
               const SizedBox(width: 8),
               Text(
-                isNew ? l10n.addCity : l10n.editCity,
+                isNew ? l10n.addGuide : l10n.editGuide,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -156,7 +168,7 @@ class _CityFormScreenState extends ConsumerState<CityFormScreen> with SingleTick
               const Spacer(),
               AdminButton.outline(
                 label: l10n.cancel,
-                onPressed: () => context.go('/cities'),
+                onPressed: () => context.go('/guides'),
               ),
               const SizedBox(width: 12),
               AdminButton.primary(
@@ -179,7 +191,7 @@ class _CityFormScreenState extends ConsumerState<CityFormScreen> with SingleTick
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      l10n.cityPhoto,
+                      l10n.guidePhoto,
                       style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -188,8 +200,8 @@ class _CityFormScreenState extends ConsumerState<CityFormScreen> with SingleTick
                     ),
                     const SizedBox(height: 12),
                     _PhotoUploadBox(
-                      url: _mainPhoto,
-                      onChanged: (url) => setState(() => _mainPhoto = url),
+                      url: _photo,
+                      onChanged: (url) => setState(() => _photo = url),
                     ),
                   ],
                 ),
@@ -216,15 +228,43 @@ class _CityFormScreenState extends ConsumerState<CityFormScreen> with SingleTick
                     const SizedBox(height: 20),
 
                     SizedBox(
-                      height: 400,
+                      height: 300,
                       child: TabBarView(
                         controller: _tabController,
                         children: [
-                          _buildLanguageFields(l10n, _nameRuController, _descrRuController),
-                          _buildLanguageFields(l10n, _nameEnController, _descrEnController),
-                          _buildLanguageFields(l10n, _nameHiController, _descrHiController),
+                          _buildLanguageFields(l10n, _nameRuController, _bioRuController),
+                          _buildLanguageFields(l10n, _nameEnController, _bioEnController),
+                          _buildLanguageFields(l10n, _nameHiController, _bioHiController),
                         ],
                       ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // Contact fields
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AdminTextField(
+                            label: l10n.guidePhone,
+                            controller: _phoneController,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: AdminTextField(
+                            label: 'WhatsApp',
+                            controller: _whatsappController,
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Expanded(
+                          child: AdminTextField(
+                            label: 'Telegram',
+                            controller: _telegramController,
+                          ),
+                        ),
+                      ],
                     ),
 
                     const SizedBox(height: 20),
@@ -248,20 +288,20 @@ class _CityFormScreenState extends ConsumerState<CityFormScreen> with SingleTick
   Widget _buildLanguageFields(
     AppLocalizations l10n,
     TextEditingController nameController,
-    TextEditingController descrController,
+    TextEditingController bioController,
   ) {
     return Column(
       children: [
         AdminTextField(
-          label: l10n.cityName,
+          label: l10n.guideName,
           controller: nameController,
           required: true,
         ),
         const SizedBox(height: 20),
         AdminTextField(
-          label: l10n.cityDescription,
-          controller: descrController,
-          maxLines: 6,
+          label: l10n.guideBio,
+          controller: bioController,
+          maxLines: 4,
         ),
       ],
     );
@@ -279,21 +319,21 @@ class _PhotoUploadBox extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     return Container(
-      width: 200,
+      width: 150,
       height: 150,
       decoration: BoxDecoration(
         color: AppColors.background,
         border: Border.all(color: AppColors.border),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(75),
       ),
       child: url != null && url!.isNotEmpty
           ? Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(75),
                   child: Image.network(
                     url!,
-                    width: 200,
+                    width: 150,
                     height: 150,
                     fit: BoxFit.cover,
                     errorBuilder: (_, __, ___) => const Center(

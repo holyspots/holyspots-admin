@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import '../../core/constants/colors.dart';
 import '../../core/constants/dimens.dart';
 import '../../core/constants/typography.dart';
 import '../../core/l10n/app_localizations.dart';
-import '../providers/auth_provider.dart';
-import 'sidebar.dart';
+import 'admin_nav_bar.dart';
 import 'language_toggle.dart';
 
 class MainLayout extends ConsumerWidget {
@@ -17,13 +15,12 @@ class MainLayout extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final userEmail = ref.watch(currentUserEmailProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Column(
         children: [
-          // Title bar
+          // Title bar (window chrome simulation)
           Container(
             height: AppDimens.titleBarHeight,
             decoration: const BoxDecoration(
@@ -36,12 +33,39 @@ class MainLayout extends ConsumerWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Text(
-                    '${l10n.appTitle} — ${l10n.adminPanel}',
-                    style: AppTypography.windowTitle,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 18,
+                        height: 18,
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Center(
+                          child: Text(
+                            'H',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Text(
+                        '${l10n.appTitle} — ${l10n.adminPanel}',
+                        style: AppTypography.windowTitle,
+                      ),
+                    ],
                   ),
                 ),
                 const Spacer(),
+                const Padding(
+                  padding: EdgeInsets.only(right: 8),
+                  child: LanguageToggle(),
+                ),
                 _WindowButton(icon: '─', onTap: () {}),
                 _WindowButton(icon: '□', onTap: () {}),
                 _WindowButton(icon: '✕', onTap: () {}),
@@ -49,47 +73,14 @@ class MainLayout extends ConsumerWidget {
             ),
           ),
 
-          // Header
-          Container(
-            height: AppDimens.headerHeight,
-            color: AppColors.primary,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              children: [
-                Text(l10n.adminPanel, style: AppTypography.appTitle),
-                const Spacer(),
-                const LanguageToggle(),
-                const SizedBox(width: 12),
-                Text(
-                  userEmail ?? '',
-                  style: AppTypography.appTitle.copyWith(
-                    fontSize: 14,
-                    color: Colors.white.withOpacity(0.85),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                _LogoutButton(
-                  onTap: () {
-                    ref.read(appConfigProvider.notifier).logout();
-                    context.go('/login');
-                  },
-                ),
-              ],
-            ),
-          ),
+          // Horizontal navigation bar
+          const AdminNavBar(),
 
           // Content
           Expanded(
-            child: Row(
-              children: [
-                const Sidebar(),
-                Expanded(
-                  child: Container(
-                    color: AppColors.surface,
-                    child: child,
-                  ),
-                ),
-              ],
+            child: Container(
+              color: AppColors.surface,
+              child: child,
             ),
           ),
         ],
@@ -116,37 +107,8 @@ class _WindowButton extends StatelessWidget {
             icon,
             style: const TextStyle(
               fontSize: 14,
-              color: Color(0xFF666666),
+              color: Color(0xFF575F6A),
             ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _LogoutButton extends StatelessWidget {
-  final VoidCallback onTap;
-
-  const _LogoutButton({required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    return InkWell(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.white.withOpacity(0.6)),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Text(
-          l10n.logout,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
           ),
         ),
       ),

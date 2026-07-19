@@ -3,20 +3,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/constants/colors.dart';
 import '../../core/l10n/app_localizations.dart';
-import '../../data/models/city_model.dart';
+import '../../data/models/region_model.dart';
 import '../providers/data_providers.dart';
 import '../providers/auth_provider.dart';
 import '../providers/locale_provider.dart';
 import '../widgets/admin_table.dart';
 import '../widgets/admin_button.dart';
 
-class CitiesScreen extends ConsumerWidget {
-  const CitiesScreen({super.key});
+class RegionsScreen extends ConsumerWidget {
+  const RegionsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final citiesAsync = ref.watch(citiesProvider);
+    final regionsAsync = ref.watch(regionsProvider);
     final locale = ref.watch(localeProvider).languageCode;
 
     return Padding(
@@ -28,7 +28,7 @@ class CitiesScreen extends ConsumerWidget {
           Row(
             children: [
               Text(
-                l10n.menuCities,
+                l10n.menuRegions,
                 style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -37,9 +37,9 @@ class CitiesScreen extends ConsumerWidget {
               ),
               const Spacer(),
               AdminButton.primary(
-                label: l10n.addCity,
+                label: l10n.addRegion,
                 icon: Icons.add,
-                onPressed: () => context.go('/cities/new'),
+                onPressed: () => context.go('/regions/new'),
               ),
             ],
           ),
@@ -47,54 +47,54 @@ class CitiesScreen extends ConsumerWidget {
 
           // Table
           Expanded(
-            child: citiesAsync.when(
-              data: (cities) => AdminTable<City>(
+            child: regionsAsync.when(
+              data: (regions) => AdminTable<Region>(
                 columns: [
                   AdminTableColumn(
-                    header: l10n.cityPhoto,
+                    header: l10n.regionPhoto,
                     width: 80,
-                    cellBuilder: (city) => _CityPhoto(url: city.mainPhoto),
+                    cellBuilder: (region) => _RegionPhoto(url: region.mainPhoto),
                   ),
                   AdminTableColumn(
-                    header: l10n.cityName,
+                    header: l10n.regionName,
                     flex: true,
-                    cellBuilder: (city) => AdminTableCell(
-                      city.name.getByLocale(locale),
+                    cellBuilder: (region) => AdminTableCell(
+                      region.name.getByLocale(locale),
                       bold: true,
                     ),
                   ),
                   AdminTableColumn(
                     header: l10n.spotsCount,
                     width: 100,
-                    cellBuilder: (city) => AdminTableCell('${city.spotsCount}'),
+                    cellBuilder: (region) => AdminTableCell('${region.spotsCount}'),
                   ),
                   AdminTableColumn(
                     header: l10n.order,
                     width: 80,
-                    cellBuilder: (city) => AdminTableCell('${city.order}'),
+                    cellBuilder: (region) => AdminTableCell('${region.order}'),
                   ),
                   AdminTableColumn(
                     header: '',
                     width: 100,
-                    cellBuilder: (city) => Row(
+                    cellBuilder: (region) => Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
                           icon: const Icon(Icons.edit_outlined, size: 18),
-                          onPressed: () => context.go('/cities/${city.id}'),
+                          onPressed: () => context.go('/regions/${region.id}'),
                           color: AppColors.textSecondary,
                         ),
                         IconButton(
                           icon: const Icon(Icons.delete_outline, size: 18),
-                          onPressed: () => _confirmDelete(context, ref, city),
+                          onPressed: () => _confirmDelete(context, ref, region),
                           color: AppColors.error,
                         ),
                       ],
                     ),
                   ),
                 ],
-                data: cities,
-                onRowTap: (city) => context.go('/cities/${city.id}'),
+                data: regions,
+                onRowTap: (region) => context.go('/regions/${region.id}'),
               ),
               loading: () => const Center(
                 child: CircularProgressIndicator(color: AppColors.primary),
@@ -109,13 +109,13 @@ class CitiesScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _confirmDelete(BuildContext context, WidgetRef ref, City city) async {
+  Future<void> _confirmDelete(BuildContext context, WidgetRef ref, Region region) async {
     final l10n = AppLocalizations.of(context);
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text(l10n.deleteCity),
-        content: Text('${l10n.confirmDelete} "${city.name.ru}"?'),
+        title: Text(l10n.deleteRegion),
+        content: Text('${l10n.confirmDelete} "${region.name.ru}"?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
@@ -134,17 +134,17 @@ class CitiesScreen extends ConsumerWidget {
       final config = ref.read(appConfigProvider);
       if (!(config?.isMockMode ?? true)) {
         final client = ref.read(apiClientProvider);
-        await client!.deleteCity(city.id);
+        await client!.deleteRegion(region.id);
       }
-      ref.invalidate(citiesProvider);
+      ref.invalidate(regionsProvider);
     }
   }
 }
 
-class _CityPhoto extends StatelessWidget {
+class _RegionPhoto extends StatelessWidget {
   final String? url;
 
-  const _CityPhoto({this.url});
+  const _RegionPhoto({this.url});
 
   @override
   Widget build(BuildContext context) {

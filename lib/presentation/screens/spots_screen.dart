@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../core/constants/colors.dart';
 import '../../core/l10n/app_localizations.dart';
-import '../../data/models/city_model.dart';
+import '../../data/models/region_model.dart';
 import '../../data/models/spot_model.dart';
 import '../providers/data_providers.dart';
 import '../providers/auth_provider.dart';
@@ -20,7 +20,7 @@ class SpotsScreen extends ConsumerStatefulWidget {
 }
 
 class _SpotsScreenState extends ConsumerState<SpotsScreen> {
-  String? _selectedCityId;
+  String? _selectedRegionId;
   int _currentPage = 1;
   static const _itemsPerPage = 20;
 
@@ -28,7 +28,7 @@ class _SpotsScreenState extends ConsumerState<SpotsScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final locale = ref.watch(localeProvider).languageCode;
-    final citiesAsync = ref.watch(citiesProvider);
+    final regionsAsync = ref.watch(regionsProvider);
 
     return Padding(
       padding: const EdgeInsets.all(24),
@@ -47,14 +47,14 @@ class _SpotsScreenState extends ConsumerState<SpotsScreen> {
                 ),
               ),
               const Spacer(),
-              // City filter
-              citiesAsync.when(
-                data: (cities) => _CityDropdown(
-                  cities: cities,
-                  selectedId: _selectedCityId,
+              // Region filter
+              regionsAsync.when(
+                data: (regions) => _RegionDropdown(
+                  regions: regions,
+                  selectedId: _selectedRegionId,
                   locale: locale,
                   onChanged: (id) => setState(() {
-                    _selectedCityId = id;
+                    _selectedRegionId = id;
                     _currentPage = 1;
                   }),
                 ),
@@ -65,8 +65,8 @@ class _SpotsScreenState extends ConsumerState<SpotsScreen> {
               AdminButton.primary(
                 label: l10n.addSpot,
                 icon: Icons.add,
-                onPressed: _selectedCityId != null
-                    ? () => context.go('/spots/new?cityId=$_selectedCityId')
+                onPressed: _selectedRegionId != null
+                    ? () => context.go('/spots/new?regionId=$_selectedRegionId')
                     : null,
               ),
             ],
@@ -75,10 +75,10 @@ class _SpotsScreenState extends ConsumerState<SpotsScreen> {
 
           // Content
           Expanded(
-            child: _selectedCityId == null
+            child: _selectedRegionId == null
                 ? Center(
                     child: Text(
-                      l10n.selectCity,
+                      l10n.selectRegion,
                       style: const TextStyle(
                         color: AppColors.textSecondary,
                         fontSize: 16,
@@ -88,7 +88,7 @@ class _SpotsScreenState extends ConsumerState<SpotsScreen> {
                 : Consumer(
                     builder: (context, ref, _) {
                       final query = SpotQuery(
-                        cityId: _selectedCityId,
+                        regionId: _selectedRegionId,
                         page: _currentPage,
                         limit: _itemsPerPage,
                       );
@@ -211,14 +211,14 @@ class _SpotsScreenState extends ConsumerState<SpotsScreen> {
   }
 }
 
-class _CityDropdown extends StatelessWidget {
-  final List<City> cities;
+class _RegionDropdown extends StatelessWidget {
+  final List<Region> regions;
   final String? selectedId;
   final String locale;
   final void Function(String?) onChanged;
 
-  const _CityDropdown({
-    required this.cities,
+  const _RegionDropdown({
+    required this.regions,
     required this.selectedId,
     required this.locale,
     required this.onChanged,
@@ -239,12 +239,12 @@ class _CityDropdown extends StatelessWidget {
         child: DropdownButton<String?>(
           value: selectedId,
           isExpanded: true,
-          hint: Text(l10n.selectCity),
-          items: cities
-              .map((city) => DropdownMenuItem(
-                    value: city.id,
+          hint: Text(l10n.selectRegion),
+          items: regions
+              .map((region) => DropdownMenuItem(
+                    value: region.id,
                     child: Text(
-                      city.name.getByLocale(locale),
+                      region.name.getByLocale(locale),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ))
