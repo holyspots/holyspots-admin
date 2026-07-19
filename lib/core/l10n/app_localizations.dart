@@ -110,6 +110,8 @@ abstract class AppLocalizations {
   String get guidePhoto;
   String get guideSpots;
   String get addSpotToGuide;
+  String get guideBio;
+  String get guidePhone;
 
   // Maps
   String get addMap;
@@ -118,6 +120,11 @@ abstract class AppLocalizations {
   String get mapName;
   String get mapFile;
   String get mapFileSize;
+  String get mapDescription;
+  String get mapRegion;
+  String get mapSize;
+  String get mapVersion;
+  String get uploadFile;
 
   // Reviews
   String get reviewsModeration;
@@ -130,6 +137,14 @@ abstract class AppLocalizations {
   String get reviewPhotos;
   String get fromDate;
   String get toDate;
+  String get reviewSpot;
+  String get reviewAuthor;
+  String get reviewDate;
+  String get reviewStatus;
+  String get reviewAll;
+  String get reviewPending;
+  String get reviewApproved;
+  String get reviewApprove;
 
   // Places
   String get addPlace;
@@ -141,6 +156,12 @@ abstract class AppLocalizations {
   String get placeType;
   String get placeTypeHotel;
   String get placeTypeFood;
+  String get placePhoto;
+  String get placePhone;
+  String get placeWebsite;
+  String get filterByRegion;
+  String get allRegions;
+  String get region;
 
   // Directions
   String get addDirection;
@@ -148,6 +169,13 @@ abstract class AppLocalizations {
   String get deleteDirection;
   String get directionName;
   String get directionDescription;
+  String get directionTitle;
+  String get directionContent;
+  String get directionType;
+  String get directionTypeBus;
+  String get directionTypeTrain;
+  String get directionTypePlane;
+  String get directionTypeWalk;
 
   // Pagination
   String get page;

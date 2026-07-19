@@ -139,12 +139,14 @@ class AdminTableCell extends StatelessWidget {
   final String text;
   final bool secondary;
   final bool bold;
+  final int maxLines;
 
   const AdminTableCell(
     this.text, {
     super.key,
     this.secondary = false,
     this.bold = false,
+    this.maxLines = 1,
   });
 
   @override
@@ -157,6 +159,7 @@ class AdminTableCell extends StatelessWidget {
         fontWeight: bold ? FontWeight.w600 : FontWeight.normal,
       ),
       overflow: TextOverflow.ellipsis,
+      maxLines: maxLines,
     );
   }
 }

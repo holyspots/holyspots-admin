@@ -176,16 +176,19 @@ class MockData {
     Guide(
       id: 'guide-1',
       name: const LocalizedText(
-        ru: 'Святыни Вриндавана',
-        en: 'Holy Sites of Vrindavan',
-        hi: 'वृन्दावन के पवित्र स्थल',
+        ru: 'Рам Прасад',
+        en: 'Ram Prasad',
+        hi: 'राम प्रसाद',
       ),
-      descr: const LocalizedText(
-        ru: 'Основные места паломничества во Вриндаване',
-        en: 'Main pilgrimage sites in Vrindavan',
-        hi: 'वृन्दावन में मुख्य तीर्थ स्थल',
+      bio: const LocalizedText(
+        ru: 'Опытный гид по Вриндавану с 15-летним стажем',
+        en: 'Experienced Vrindavan guide with 15 years of experience',
+        hi: '15 वर्षों के अनुभव के साथ अनुभवी वृन्दावन गाइड',
       ),
-      mainPhoto: 'https://placeholder.com/guide-vrindavan.jpg',
+      photo: 'https://placeholder.com/guide-ram.jpg',
+      phone: '+91 9876543210',
+      whatsapp: '+91 9876543210',
+      telegram: '@ramprasad',
       order: 1,
       spotIds: ['spot-1', 'spot-2', 'spot-3'],
       spotsCount: 3,
@@ -193,16 +196,18 @@ class MockData {
     Guide(
       id: 'guide-2',
       name: const LocalizedText(
-        ru: 'Говардхан Парикрама',
-        en: 'Govardhan Parikrama',
-        hi: 'गोवर्धन परिक्रमा',
+        ru: 'Шьям Сундар',
+        en: 'Shyam Sundar',
+        hi: 'श्याम सुंदर',
       ),
-      descr: const LocalizedText(
-        ru: 'Маршрут обхода холма Говардхан (21 км)',
-        en: 'Route around Govardhan Hill (21 km)',
-        hi: 'गोवर्धन पहाड़ी का चक्कर (21 किमी)',
+      bio: const LocalizedText(
+        ru: 'Специалист по Говардхан парикраме',
+        en: 'Specialist in Govardhan Parikrama',
+        hi: 'गोवर्धन परिक्रमा विशेषज्ञ',
       ),
-      mainPhoto: 'https://placeholder.com/guide-govardhan.jpg',
+      photo: 'https://placeholder.com/guide-shyam.jpg',
+      phone: '+91 9876543211',
+      whatsapp: '+91 9876543211',
       order: 2,
       spotIds: [],
       spotsCount: 0,
@@ -218,8 +223,14 @@ class MockData {
         en: 'Vrindavan',
         hi: 'वृन्दावन',
       ),
-      file: 'vrindavan.mbtiles',
-      fileSize: 50331648, // 48 MB
+      descr: const LocalizedText(
+        ru: 'Офлайн карта Вриндавана с достопримечательностями',
+        en: 'Offline map of Vrindavan with attractions',
+        hi: 'आकर्षणों के साथ वृन्दावन का ऑफ़लाइन नक्शा',
+      ),
+      fileUrl: 'https://maps.example.com/vrindavan.mbtiles',
+      sizeBytes: 50331648, // 48 MB
+      version: '2.1',
       regionId: 'region-1',
     ),
     OfflineMap(
@@ -229,8 +240,14 @@ class MockData {
         en: 'Angkor Wat',
         hi: 'अंगकोर वाट',
       ),
-      file: 'angkor_wat.mbtiles',
-      fileSize: 63963136, // 61 MB
+      descr: const LocalizedText(
+        ru: 'Офлайн карта храмового комплекса Ангкор',
+        en: 'Offline map of Angkor temple complex',
+        hi: 'अंगकोर मंदिर परिसर का ऑफ़लाइन नक्शा',
+      ),
+      fileUrl: 'https://maps.example.com/angkor_wat.mbtiles',
+      sizeBytes: 63963136, // 61 MB
+      version: '1.5',
       regionId: null,
     ),
     OfflineMap(
@@ -240,8 +257,14 @@ class MockData {
         en: 'Jagannatha Puri',
         hi: 'जगन्नाथ पुरी',
       ),
-      file: 'puri.mbtiles',
-      fileSize: 36700160, // 35 MB
+      descr: const LocalizedText(
+        ru: 'Офлайн карта Пури с храмами и пляжами',
+        en: 'Offline map of Puri with temples and beaches',
+        hi: 'मंदिरों और समुद्र तटों के साथ पुरी का ऑफ़लाइन नक्शा',
+      ),
+      fileUrl: 'https://maps.example.com/puri.mbtiles',
+      sizeBytes: 36700160, // 35 MB
+      version: '1.0',
       regionId: 'region-3',
     ),
   ];
@@ -252,8 +275,9 @@ class MockData {
       id: 'review-1',
       spotId: 'spot-1',
       spotName: 'Храм Кришны-Баларамы',
+      authorName: 'Рамачандра дас',
       createdAt: DateTime(2026, 7, 12),
-      rating: ReviewRating.happy,
+      rating: 5,
       text: 'Удивительное по силе место. Обязательно приходите на утреннее арати.',
       photos: ['https://placeholder.com/review1-1.jpg', 'https://placeholder.com/review1-2.jpg'],
       isApproved: false,
@@ -262,8 +286,9 @@ class MockData {
       id: 'review-2',
       spotId: 'spot-2',
       spotName: 'Холм Говардхан',
+      authorName: 'Радха деви даси',
       createdAt: DateTime(2026, 7, 10),
-      rating: ReviewRating.neutral,
+      rating: 3,
       text: 'Парикрама 21 км — берите воду и выходите рано утром.',
       photos: [],
       isApproved: false,
@@ -272,8 +297,9 @@ class MockData {
       id: 'review-3',
       spotId: 'spot-4',
       spotName: 'Храм Господа Джаганнатха',
+      authorName: 'Кришна прем дас',
       createdAt: DateTime(2026, 7, 8),
-      rating: ReviewRating.sad,
+      rating: 2,
       text: 'Иностранцев внутрь не пускают, смотрели снаружи.',
       photos: [],
       isApproved: false,
@@ -282,8 +308,9 @@ class MockData {
       id: 'review-4',
       spotId: 'spot-1',
       spotName: 'Храм Кришны-Баларамы',
+      authorName: 'Гопи деви даси',
       createdAt: DateTime(2026, 7, 5),
-      rating: ReviewRating.happy,
+      rating: 5,
       text: 'Прекрасный храм! Рекомендую посетить.',
       photos: [],
       isApproved: true,
@@ -307,8 +334,15 @@ class MockData {
         hi: 'इस्कॉन में सुखद और काफी शानदार जगह। अग्रिम बुकिंग बेहतर है।',
       ),
       mainPhoto: 'https://placeholder.com/mvt.jpg',
-      address: 'Bhaktivedanta Swami Marg, Vrindavan, UP 281121',
-      location: const GeoPoint(latitude: 27.5738, longitude: 77.6897),
+      address: const LocalizedText(
+        ru: 'Бхактиведанта Свами Марг, Вриндаван, UP 281121',
+        en: 'Bhaktivedanta Swami Marg, Vrindavan, UP 281121',
+        hi: 'भक्तिवेदांत स्वामी मार्ग, वृन्दावन, UP 281121',
+      ),
+      phone: '+91 565 2540021',
+      website: 'https://iskconvrindavan.com',
+      lat: 27.5738,
+      lng: 77.6897,
     ),
     Place(
       id: 'place-2',
@@ -325,8 +359,11 @@ class MockData {
         hi: 'तीर्थयात्रियों के लिए गेस्टहाउस',
       ),
       mainPhoto: 'https://placeholder.com/bhakti-dhama.jpg',
-      address: 'Vrindavan',
-      location: null,
+      address: const LocalizedText(
+        ru: 'Вриндаван',
+        en: 'Vrindavan',
+        hi: 'वृन्दावन',
+      ),
     ),
     Place(
       id: 'place-3',
@@ -343,8 +380,11 @@ class MockData {
         hi: 'शाकाहारी मेनू वाला कैफ़े',
       ),
       mainPhoto: 'https://placeholder.com/keshav-coffee.jpg',
-      address: 'Near Loi Bazaar, Vrindavan',
-      location: null,
+      address: const LocalizedText(
+        ru: 'Рядом с Лой Базаром, Вриндаван',
+        en: 'Near Loi Bazaar, Vrindavan',
+        hi: 'लोई बाज़ार के पास, वृन्दावन',
+      ),
     ),
     Place(
       id: 'place-4',
@@ -361,8 +401,11 @@ class MockData {
         hi: 'पारंपरिक भारतीय मिठाइयाँ',
       ),
       mainPhoto: 'https://placeholder.com/ram-sweets.jpg',
-      address: 'Main Market, Vrindavan',
-      location: null,
+      address: const LocalizedText(
+        ru: 'Главный рынок, Вриндаван',
+        en: 'Main Market, Vrindavan',
+        hi: 'मुख्य बाज़ार, वृन्दावन',
+      ),
     ),
   ];
 
@@ -371,12 +414,14 @@ class MockData {
     Direction(
       id: 'dir-1',
       regionId: 'region-1',
-      name: const LocalizedText(
+      type: DirectionType.train,
+      order: 1,
+      title: const LocalizedText(
         ru: 'Поездом из Дели',
         en: 'By train from Delhi',
         hi: 'दिल्ली से ट्रेन द्वारा',
       ),
-      descr: const LocalizedText(
+      content: const LocalizedText(
         ru: 'Самый простой и безопасный способ — поезд с железнодорожной станции Нью-Дели до Матхуры, далее авто-рикша до Вриндавана (около 15 км).',
         en: 'The easiest and safest way is a train from New Delhi Railway Station to Mathura, then auto-rickshaw to Vrindavan (about 15 km).',
         hi: 'सबसे आसान और सुरक्षित तरीका नई दिल्ली रेलवे स्टेशन से मथुरा तक ट्रेन है, फिर वृन्दावन के लिए ऑटो-रिक्शा (लगभग 15 किमी)।',
@@ -385,12 +430,14 @@ class MockData {
     Direction(
       id: 'dir-2',
       regionId: 'region-1',
-      name: const LocalizedText(
+      type: DirectionType.bus,
+      order: 2,
+      title: const LocalizedText(
         ru: 'Такси из аэропорта Дели',
         en: 'Taxi from Delhi Airport',
         hi: 'दिल्ली हवाई अड्डे से टैक्सी',
       ),
-      descr: const LocalizedText(
+      content: const LocalizedText(
         ru: 'Такси из аэропорта Дели до Вриндавана занимает 3–4 часа в зависимости от трафика. Можно забронировать через приложения Uber или Ola.',
         en: 'Taxi from Delhi Airport to Vrindavan takes 3-4 hours depending on traffic. Can be booked through Uber or Ola apps.',
         hi: 'दिल्ली हवाई अड्डे से वृन्दावन तक टैक्सी 3-4 घंटे लेती है जो ट्रैफ़िक पर निर्भर करता है। Uber या Ola ऐप के माध्यम से बुक किया जा सकता है।',

@@ -97,6 +97,8 @@ class AppLocalizationsRu implements AppLocalizations {
   @override String get guidePhoto => 'Фото';
   @override String get guideSpots => 'Места';
   @override String get addSpotToGuide => 'Добавить место';
+  @override String get guideBio => 'О гиде';
+  @override String get guidePhone => 'Телефон';
 
   // Maps
   @override String get addMap => 'Добавить карту';
@@ -105,6 +107,11 @@ class AppLocalizationsRu implements AppLocalizations {
   @override String get mapName => 'Название';
   @override String get mapFile => 'Файл';
   @override String get mapFileSize => 'Размер файла';
+  @override String get mapDescription => 'Описание';
+  @override String get mapRegion => 'Регион';
+  @override String get mapSize => 'Размер';
+  @override String get mapVersion => 'Версия';
+  @override String get uploadFile => 'Загрузить файл';
 
   // Reviews
   @override String get reviewsModeration => 'Модерация отзывов';
@@ -117,6 +124,14 @@ class AppLocalizationsRu implements AppLocalizations {
   @override String get reviewPhotos => 'Фото';
   @override String get fromDate => 'С';
   @override String get toDate => 'По';
+  @override String get reviewSpot => 'Место';
+  @override String get reviewAuthor => 'Автор';
+  @override String get reviewDate => 'Дата';
+  @override String get reviewStatus => 'Статус';
+  @override String get reviewAll => 'Все';
+  @override String get reviewPending => 'Ожидают';
+  @override String get reviewApproved => 'Одобренные';
+  @override String get reviewApprove => 'Одобрить';
 
   // Places
   @override String get addPlace => 'Добавить заведение';
@@ -128,6 +143,12 @@ class AppLocalizationsRu implements AppLocalizations {
   @override String get placeType => 'Тип';
   @override String get placeTypeHotel => 'Отель';
   @override String get placeTypeFood => 'Еда';
+  @override String get placePhoto => 'Фото';
+  @override String get placePhone => 'Телефон';
+  @override String get placeWebsite => 'Сайт';
+  @override String get filterByRegion => 'По региону';
+  @override String get allRegions => 'Все регионы';
+  @override String get region => 'Регион';
 
   // Directions
   @override String get addDirection => 'Добавить маршрут';
@@ -135,6 +156,13 @@ class AppLocalizationsRu implements AppLocalizations {
   @override String get deleteDirection => 'Удалить маршрут';
   @override String get directionName => 'Название';
   @override String get directionDescription => 'Описание';
+  @override String get directionTitle => 'Заголовок';
+  @override String get directionContent => 'Содержание';
+  @override String get directionType => 'Тип';
+  @override String get directionTypeBus => 'Автобус';
+  @override String get directionTypeTrain => 'Поезд';
+  @override String get directionTypePlane => 'Самолет';
+  @override String get directionTypeWalk => 'Пешком';
 
   // Pagination
   @override String get page => 'Страница';

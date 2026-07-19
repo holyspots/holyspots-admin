@@ -59,9 +59,9 @@ class AdminNavBar extends ConsumerWidget {
             isActive: currentPath.startsWith('/directions'),
             onTap: () => context.go('/directions'),
           ),
-          const Spacer(),
+          const _WrapSpacer(),
           Text(
-            config.email ?? 'admin',
+            config?.userEmail ?? 'admin',
             style: const TextStyle(
               fontSize: 17,
               color: AppColors.primary,
@@ -119,9 +119,9 @@ class _NavTab extends StatelessWidget {
   }
 }
 
-/// Spacer widget for use in Wrap
-class Spacer extends StatelessWidget {
-  const Spacer({super.key});
+/// Spacer widget for use in Wrap (private to avoid conflict with Flutter's Spacer)
+class _WrapSpacer extends StatelessWidget {
+  const _WrapSpacer();
 
   @override
   Widget build(BuildContext context) {

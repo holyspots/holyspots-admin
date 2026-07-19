@@ -97,6 +97,8 @@ class AppLocalizationsEn implements AppLocalizations {
   @override String get guidePhoto => 'Photo';
   @override String get guideSpots => 'Spots';
   @override String get addSpotToGuide => 'Add spot';
+  @override String get guideBio => 'Bio';
+  @override String get guidePhone => 'Phone';
 
   // Maps
   @override String get addMap => 'Add map';
@@ -105,6 +107,11 @@ class AppLocalizationsEn implements AppLocalizations {
   @override String get mapName => 'Name';
   @override String get mapFile => 'File';
   @override String get mapFileSize => 'File size';
+  @override String get mapDescription => 'Description';
+  @override String get mapRegion => 'Region';
+  @override String get mapSize => 'Size';
+  @override String get mapVersion => 'Version';
+  @override String get uploadFile => 'Upload file';
 
   // Reviews
   @override String get reviewsModeration => 'Reviews moderation';
@@ -117,6 +124,14 @@ class AppLocalizationsEn implements AppLocalizations {
   @override String get reviewPhotos => 'Photos';
   @override String get fromDate => 'From';
   @override String get toDate => 'To';
+  @override String get reviewSpot => 'Spot';
+  @override String get reviewAuthor => 'Author';
+  @override String get reviewDate => 'Date';
+  @override String get reviewStatus => 'Status';
+  @override String get reviewAll => 'All';
+  @override String get reviewPending => 'Pending';
+  @override String get reviewApproved => 'Approved';
+  @override String get reviewApprove => 'Approve';
 
   // Places
   @override String get addPlace => 'Add place';
@@ -128,6 +143,12 @@ class AppLocalizationsEn implements AppLocalizations {
   @override String get placeType => 'Type';
   @override String get placeTypeHotel => 'Hotel';
   @override String get placeTypeFood => 'Food';
+  @override String get placePhoto => 'Photo';
+  @override String get placePhone => 'Phone';
+  @override String get placeWebsite => 'Website';
+  @override String get filterByRegion => 'Filter by region';
+  @override String get allRegions => 'All regions';
+  @override String get region => 'Region';
 
   // Directions
   @override String get addDirection => 'Add direction';
@@ -135,6 +156,13 @@ class AppLocalizationsEn implements AppLocalizations {
   @override String get deleteDirection => 'Delete direction';
   @override String get directionName => 'Name';
   @override String get directionDescription => 'Description';
+  @override String get directionTitle => 'Title';
+  @override String get directionContent => 'Content';
+  @override String get directionType => 'Type';
+  @override String get directionTypeBus => 'Bus';
+  @override String get directionTypeTrain => 'Train';
+  @override String get directionTypePlane => 'Plane';
+  @override String get directionTypeWalk => 'Walk';
 
   // Pagination
   @override String get page => 'Page';

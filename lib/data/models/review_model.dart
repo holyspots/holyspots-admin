@@ -1,11 +1,10 @@
-enum ReviewRating { happy, neutral, sad }
-
 class Review {
   final String id;
   final String spotId;
   final String spotName;
+  final String authorName;
   final DateTime createdAt;
-  final ReviewRating rating;
+  final int rating; // 1-5
   final String text;
   final List<String> photos;
   final bool isApproved;
@@ -15,6 +14,7 @@ class Review {
     required this.id,
     required this.spotId,
     required this.spotName,
+    required this.authorName,
     required this.createdAt,
     required this.rating,
     required this.text,
@@ -28,10 +28,11 @@ class Review {
       id: json['id'] as String? ?? json['_id'] as String? ?? '',
       spotId: json['spot_id'] as String? ?? '',
       spotName: json['spot_name'] as String? ?? '',
+      authorName: json['author_name'] as String? ?? json['user_name'] as String? ?? 'Anonymous',
       createdAt: json['created_at'] != null
           ? DateTime.parse(json['created_at'] as String)
           : DateTime.now(),
-      rating: _parseRating(json['rating']),
+      rating: json['rating'] as int? ?? 3,
       text: json['text'] as String? ?? '',
       photos: (json['photos'] as List<dynamic>?)
               ?.map((e) => e as String)
@@ -42,42 +43,13 @@ class Review {
     );
   }
 
-  static ReviewRating _parseRating(dynamic value) {
-    if (value is String) {
-      switch (value) {
-        case 'happy':
-          return ReviewRating.happy;
-        case 'neutral':
-          return ReviewRating.neutral;
-        case 'sad':
-          return ReviewRating.sad;
-      }
-    }
-    if (value is int) {
-      if (value >= 4) return ReviewRating.happy;
-      if (value >= 2) return ReviewRating.neutral;
-      return ReviewRating.sad;
-    }
-    return ReviewRating.neutral;
-  }
-
-  String get ratingValue {
-    switch (rating) {
-      case ReviewRating.happy:
-        return 'happy';
-      case ReviewRating.neutral:
-        return 'neutral';
-      case ReviewRating.sad:
-        return 'sad';
-    }
-  }
-
   Review copyWith({
     String? id,
     String? spotId,
     String? spotName,
+    String? authorName,
     DateTime? createdAt,
-    ReviewRating? rating,
+    int? rating,
     String? text,
     List<String>? photos,
     bool? isApproved,
@@ -87,6 +59,7 @@ class Review {
       id: id ?? this.id,
       spotId: spotId ?? this.spotId,
       spotName: spotName ?? this.spotName,
+      authorName: authorName ?? this.authorName,
       createdAt: createdAt ?? this.createdAt,
       rating: rating ?? this.rating,
       text: text ?? this.text,
